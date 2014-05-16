@@ -107,7 +107,7 @@ We have also enabled the "function" rendering in order to create smooth curved l
 		['2005',  1170,      460],
 		['2006',  660,  1120],
 		['2007',  1030,      540]
-[/lineChart]'
+[/lineChart]`
 
 = Column Chart =
 
