@@ -2,9 +2,9 @@
 Contributors: jvrtanoski
 Donate link: http://tsba.mobi
 Tags: google, graphs, charts, geo-chart
-Requires at least: 0.1
+Requires at least: 3.8
 Tested up to: 3.9.1
-Stable tag: 0.2
+Stable tag: 0.2.2
 License: CC BY-NC 4.0
 License URI: http://creativecommons.org/licenses/by-nc/4.0/
 
@@ -107,7 +107,7 @@ We have also enabled the "function" rendering in order to create smooth curved l
 		['2005',  1170,      460],
 		['2006',  660,  1120],
 		['2007',  1030,      540]
-[/lineChart]'
+[/lineChart]`
 
 = Column Chart =
 
@@ -217,6 +217,12 @@ At the moment we support only the basic pie chart, however we plan to add the 3D
 = 0.2 =
 * Minor changes on the readme.txt file
 * Cleanup for WordPress.org submission
+= 0.2.1 =
+* Fixing the versioning across the files
+* Moving Screenshots to assets folder
+= 0.2.2 =
+* Adding the banner for the Wordpress.org plug-in page
 
 == Upgrade Notice ==
-No upgrade concerns
+= 0.2 =
+Update to have correct version file
