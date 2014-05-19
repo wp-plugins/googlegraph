@@ -4,7 +4,7 @@ Donate link: http://tsba.mobi
 Tags: google, graphs, charts, geo-chart
 Requires at least: 3.8
 Tested up to: 3.9.1
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 License: CC BY-NC 4.0
 License URI: http://creativecommons.org/licenses/by-nc/4.0/
 
@@ -220,6 +220,8 @@ At the moment we support only the basic pie chart, however we plan to add the 3D
 = 0.2.1 =
 * Fixing the versioning across the files
 * Moving Screenshots to assets folder
+= 0.2.2 =
+* Adding the banner for the Wordpress.org plug-in page
 
 == Upgrade Notice ==
 = 0.2 =
