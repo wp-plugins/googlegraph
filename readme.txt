@@ -4,7 +4,7 @@ Donate link: http://tsba.mobi
 Tags: google, graphs, charts, geo-chart, google charts
 Requires at least: 3.8
 Tested up to: 4.0 
-Stable tag: 0.3
+Stable tag: 0.3.1
 License: CC BY-NC 4.0
 License URI: http://creativecommons.org/licenses/by-nc/4.0/
 
@@ -204,6 +204,18 @@ The pie chart is triggered by short code [  pieChart  ]
 	['Sleep',    7]
 [/pieChart]`
 
+The position and color of the slices can be altered by adding the "slices" option to the shortcode as follows:
+
+`[pieChart width="400px" slices="{ 0: {offset: 0.2, color: 'black'}, 3: {color: white} }"]
+        ['Task', 'Hours per Day'],
+        ['Work',     11],
+        ['Eat',      2],
+        ['Commute',  2],
+        ['Watch TV', 2],
+        ['Sleep',    7]
+[/pieChart]`
+
+
 At the moment we support only the basic pie chart, however we plan to add the 3D and Donut type soon.
 
 == Screenshots ==
@@ -224,6 +236,8 @@ At the moment we support only the basic pie chart, however we plan to add the 3D
 * Adding the banner for the Wordpress.org plug-in page
 = 0.3 =
 * Verification of the support for WordPress 4.0
+= 0.3.1 =
+* Addedd support for option for "slices"
 
 == Upgrade Notice ==
 = 0.2 =
