@@ -3,7 +3,7 @@
 Plugin Name: GoogleGraph
 Plugin URI: http://tsba.mobi/google-graph
 Description: Generate Google Chart.
-Version: 0.2.2
+Version: 0.3.1
 Author: Jordan Vrtanoski
 Author Email: jordan.vrtanoski@tsba.mobi
 License:
@@ -129,7 +129,8 @@ class GoogleGraph {
 			'displaymode' => NULL,
 			'region' => NULL,
 			'colorstart' => NULL,
-			'colorend' => NULL
+			'colorend' => NULL,
+                        'slices' => NULL
 			), $atts));
 		// you can now access the attribute values using $attr1 and $attr2
 
@@ -155,6 +156,15 @@ class GoogleGraph {
        		$otheroptions= $otheroptions."colorAxis: {colors: ['$colorstart', '$colorend']} ,";
     	}
     }
+
+    // Adding the option for "slices" as per the google documents
+   //  Example:  slices="{ 0: {offset: 0.2, color: 'black'} }"
+    if ($type === "PieChart") {
+	    if (!is_null($slices)) {
+       		$otheroptions= $otheroptions."slices: $slices, ";
+    	}
+    }
+       
        
     $str = <<<EOT
 		
