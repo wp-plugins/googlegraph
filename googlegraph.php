@@ -3,7 +3,7 @@
 Plugin Name: GoogleGraph
 Plugin URI: http://tsba.mobi/google-graph
 Description: Generate Google Chart.
-Version: 0.3.1
+Version: 0.3.2
 Author: Jordan Vrtanoski
 Author Email: jordan.vrtanoski@tsba.mobi
 License:
@@ -167,7 +167,7 @@ class GoogleGraph {
        
        
     $str = <<<EOT
-		
+    <div id="googlegraph_$item_id" class="tsba_googlegraph">	
     <div id="chart_div_$item_id" class="gc_$type" style="width: $width; height: $height;"></div>
 	<script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
@@ -190,7 +190,9 @@ class GoogleGraph {
         chart.draw(data, options);
       }
     </script>
-
+    <p style="font-size: .5em;">Powered by <a href="http://tsba.mobi" title="TSBA.mobi GoogleGraph Wordpress plugin">TSBA.mobi GoogleGraph Wordpress plugin</a></p>
+    </div>
+		
 EOT;
 		return $str;
 	}
