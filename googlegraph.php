@@ -3,7 +3,7 @@
 Plugin Name: GoogleGraph
 Plugin URI: http://tsba.mobi/google-graph
 Description: Generate Google Chart.
-Version: 0.2.2
+Version: 0.3.2
 Author: Jordan Vrtanoski
 Author Email: jordan.vrtanoski@tsba.mobi
 License:
@@ -129,7 +129,8 @@ class GoogleGraph {
 			'displaymode' => NULL,
 			'region' => NULL,
 			'colorstart' => NULL,
-			'colorend' => NULL
+			'colorend' => NULL,
+                        'slices' => NULL
 			), $atts));
 		// you can now access the attribute values using $attr1 and $attr2
 
@@ -155,9 +156,18 @@ class GoogleGraph {
        		$otheroptions= $otheroptions."colorAxis: {colors: ['$colorstart', '$colorend']} ,";
     	}
     }
+
+    // Adding the option for "slices" as per the google documents
+   //  Example:  slices="{ 0: {offset: 0.2, color: 'black'} }"
+    if ($type === "PieChart") {
+	    if (!is_null($slices)) {
+       		$otheroptions= $otheroptions."slices: $slices, ";
+    	}
+    }
+       
        
     $str = <<<EOT
-		
+    <div id="googlegraph_$item_id" class="tsba_googlegraph">	
     <div id="chart_div_$item_id" class="gc_$type" style="width: $width; height: $height;"></div>
 	<script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
@@ -180,7 +190,9 @@ class GoogleGraph {
         chart.draw(data, options);
       }
     </script>
-
+    <p style="font-size: .5em;">Powered by <a href="http://tsba.mobi" title="TSBA.mobi GoogleGraph Wordpress plugin">TSBA.mobi GoogleGraph Wordpress plugin</a></p>
+    </div>
+		
 EOT;
 		return $str;
 	}
