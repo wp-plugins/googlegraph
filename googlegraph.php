@@ -3,7 +3,7 @@
 Plugin Name: GoogleGraph
 Plugin URI: http://tsba.mobi/google-graph
 Description: Generate Google Chart.
-Version: 0.3.2
+Version: 0.3.3
 Author: Jordan Vrtanoski
 Author Email: jordan.vrtanoski@tsba.mobi
 License:
@@ -70,6 +70,7 @@ class GoogleGraph {
 		add_shortcode( 'barChart', array( &$this, 'render_bargraph' ) );
 		add_shortcode( 'pieChart', array( &$this, 'render_piechart' ) );
 		add_shortcode( 'geoChart', array( &$this, 'render_geochart' ) );
+		add_shortcode( 'bubbleChart', array( &$this, 'render_bubblechart' ) );
 	
 		if ( is_admin() ) {
 			//this will run when in the WordPress admin
@@ -107,6 +108,10 @@ class GoogleGraph {
          return $this->render_chart('GeoChart', $atts, $content);
     }   
 
+    function render_bubblechart($atts, $content = null) {
+         return $this->render_chart('BubbleChart', $atts, $content);
+    }   
+
 	function action_callback_method_name() {
 		// TODO define your action method here
 	}
@@ -130,7 +135,8 @@ class GoogleGraph {
 			'region' => NULL,
 			'colorstart' => NULL,
 			'colorend' => NULL,
-                        'slices' => NULL
+			'slices' => NULL,
+			'bubble' => NULL
 			), $atts));
 		// you can now access the attribute values using $attr1 and $attr2
 
@@ -164,7 +170,20 @@ class GoogleGraph {
        		$otheroptions= $otheroptions."slices: $slices, ";
     	}
     }
+
+    // Adding the option for "bubble" as per the google documents
+   //  Example:  bubble ="{textStyle: {auraColor: 'none'}}"
+    if ($type === "BubbleChart") {
+        if (!is_null($bubble)) {
+       		$otheroptions= $otheroptions."bubble: $bubble, ";
+    	}
+	if (!is_null($colorstart) && !is_null($colorend)) {
+       		$otheroptions= $otheroptions."colorAxis: {colors: ['$colorstart', '$colorend']},";
+        }
+    }
        
+    // Remove HTML tags from the content of the shortcode
+    $content = wp_strip_all_tags($content,true);
        
     $str = <<<EOT
     <div id="googlegraph_$item_id" class="tsba_googlegraph">	
@@ -190,7 +209,7 @@ class GoogleGraph {
         chart.draw(data, options);
       }
     </script>
-    <p style="font-size: .5em;">Powered by <a href="http://tsba.mobi" title="TSBA.mobi GoogleGraph Wordpress plugin">TSBA.mobi GoogleGraph Wordpress plugin</a></p>
+    <p style="font-size: .5em;">Powered by <a href="http://tsba.mobi" title="Powered by TSBA.mobi GoogleGraph Wordpress plugin">TSBA.mobi GoogleGraph Wordpress plugin</a></p>
     </div>
 		
 EOT;
@@ -233,5 +252,24 @@ EOT;
   
 } // end class
 new GoogleGraph();
+
+
+// add more buttons to the html editor
+function googlegraph_add_quicktags() {
+    if (wp_script_is('quicktags')){
+?>
+    <script type="text/javascript">
+    QTags.addButton( 'eg_geoChart', 'geoChart', '[geoChart vaxis="{title: \'\'}" haxis="{title: \'\'}" title=""]', '[/geoChart]', 'g', 'Geo Chart', 200 );
+    QTags.addButton( 'eg_lineChart', 'lineChart', '[lineChart vaxis="{title: \'\'}" haxis="{title: \'\'}" title=""]', '[/lineChart]', 'l', 'Line Chart', 201 );
+    QTags.addButton( 'eg_columnChart', 'columnChart', '[columnChart vaxis="{title: \'\'}" haxis="{title: \'\'}" title=""]', '[/columnChart]', 'c', 'Line Chart', 202 );
+    QTags.addButton( 'eg_barChart', 'barChart', '[barChart vaxis="{title: \'\'}" haxis="{title: \'\'}" title=""]', '[/barChart]', 'b', 'Line Chart', 203 );
+    QTags.addButton( 'eg_pieChart', 'pieChart', '[pieChart title=""]', '[/pieChart]', 'p', 'Pie Chart', 204 );
+    QTags.addButton( 'eg_bubbleChart', 'bubbleChart', '[bubbleChart vaxis="{title: \'\'}" haxis="{title: \'\'}" title="" bubble="{}"]', '[/bubbleChart]', 'p', 'Bubble Chart', 205 );
+    </script>
+<?php
+    }
+}
+add_action( 'admin_print_footer_scripts', 'googlegraph_add_quicktags' );
+
 
 ?>
