@@ -66,29 +66,34 @@ For more details on the supported options for each chart, refer to the google's 
 = Supported attributes to the short codes =
 
 Global attributes
-* width			Width of the graph (including the legend, titile and axes labels)
-* height		Height of the graph (including the legend, titile and axes labels)
-* title			Title of the graph
-* legend		Styling attributes for the legend in a form of JavaScript object
-* vaxis			Title and styling attributes for the vertical axes
-* haxis			Title and styling attributes for the horizontal axes	
+
+* "width" Width of the graph (including the legend, titile and axes labels)
+* "height" Height of the graph (including the legend, titile and axes labels)
+* "title" Title of the graph
+* "legend" Styling attributes for the legend in a form of JavaScript object
+* "vaxis" Title and styling attributes for the vertical axes
+* "haxis" Title and styling attributes for the horizontal axes	
 
 lineChart attributes
-* curvetype		Type of the curvature of the line
+
+* "curvetype" Type of the curvature of the line
 
 geoChart attributes
-* displaymode	Display mode of the chart
-* region		Region of interest
-* colorstart	Start color of the gradient
-* colorend		End color of the gradient
+
+* "displaymode" Display mode of the chart
+* "region" Region of interest
+* "colorstart" Start color of the gradient
+* "colorend" End color of the gradient
 
 pieChart attributes
-* slices		Attributes of the slices
+
+* "slices" Attributes of the slices
 
 bubbleChart attributes
-* bubble		Attributes and styles of the bubbles
-* colorstart	Start color of the gradient
-* colorend		End color of the gradient
+
+* "bubble" Attributes and styles of the bubbles
+* "colorstart" Start color of the gradient
+* "colorend" End color of the gradient
 
 = Geo Chart Example =
 `[geoChart width="700px" height="700px" ]
