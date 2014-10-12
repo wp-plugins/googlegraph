@@ -306,9 +306,11 @@ Bubble charts support classification (by color type) and size of the bubble. To 
 [/bubbleChart]`
 
 == Screenshots ==
-1. Geo Chart
-2. Line Chart
-3. Bar Chart
+1. Quick Tags in the edit box
+2. Geo Chart
+3. Line Chart
+4. Bar Chart
+5. Bubble Chart
 
 == Changelog ==
 = 0.3.3 =
