@@ -95,6 +95,13 @@ bubbleChart attributes
 * "bubble" Attributes and styles of the bubbles
 * "colorstart" Start color of the gradient
 * "colorend" End color of the gradient
+* "trendlines" Allows adding a trend line to the series. The value of the attribute is java configuration line.
+
+barChart attributes
+* "trendlines" Allows adding a trend line to the series. The value of the attribute is java configuration line.
+
+scatterChart attributes
+* "trendlines" Allows adding a trend line to the series. The value of the attribute is java configuration line.
 
 = Geo Chart Example =
 `[geoChart width="700px" height="700px" ]
@@ -314,7 +321,7 @@ Bubble charts support classification (by color type) and size of the bubble. To 
 5. Bubble Chart
 
 == Changelog ==
-= 0.3.4=
+= 0.3.4 =
 * New chart type "Scatter Chart" added. Use the shortcode "scatterChart" to render the scatter chart. 
 * Added new feature for the Line Chart that will allow the chart to interpolate the missing data points
 * Added new feature for rendering trend lines for Column Charts, Bar Charts, Line Chart and Scatter Chart. !!!! Impartent, the first row should be number or date in order for the trend line to be activated.
