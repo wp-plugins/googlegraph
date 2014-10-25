@@ -3,7 +3,7 @@
 Plugin Name: GoogleGraph
 Plugin URI: http://tsba.mobi/google-graph
 Description: Generate Google Chart.
-Version: 0.3.3
+Version: 0.3.4
 Author: Jordan Vrtanoski
 Author Email: jordan.vrtanoski@tsba.mobi
 License:
@@ -71,6 +71,7 @@ class GoogleGraph {
 		add_shortcode( 'pieChart', array( &$this, 'render_piechart' ) );
 		add_shortcode( 'geoChart', array( &$this, 'render_geochart' ) );
 		add_shortcode( 'bubbleChart', array( &$this, 'render_bubblechart' ) );
+               	add_shortcode( 'scatterChart', array( &$this, 'render_scatterchart' ) );
 	
 		if ( is_admin() ) {
 			//this will run when in the WordPress admin
@@ -112,6 +113,10 @@ class GoogleGraph {
          return $this->render_chart('BubbleChart', $atts, $content);
     }   
 
+    function render_scatterchart($atts, $content = null) {
+         return $this->render_chart('ScatterChart', $atts, $content);
+    }   
+
 	function action_callback_method_name() {
 		// TODO define your action method here
 	}
@@ -136,7 +141,9 @@ class GoogleGraph {
 			'colorstart' => NULL,
 			'colorend' => NULL,
 			'slices' => NULL,
-			'bubble' => NULL
+			'bubble' => NULL,
+                        'interpolate' => 'true',
+                        'trendlines' => NULL,
 			), $atts));
 		// you can now access the attribute values using $attr1 and $attr2
 
@@ -146,27 +153,49 @@ class GoogleGraph {
     // Prepare the curve option for line chart types
     $otheroptions="";
     if ($type === "LineChart") {
-	    if (!is_null($curvetype)) {
-       		$otheroptions= $otheroptions."curveType: '$curvetype',";
+	if (!is_null($curvetype)) {
+       	    $otheroptions= $otheroptions."curveType: '$curvetype',";
     	}
+        if (!($interpolate ==="false")) {
+            $interpolate = "true";
+        }
+        $otheroptions = $otheroptions."interpolateNulls: $interpolate,";
     }
 
     if ($type === "GeoChart") {
-	    if (!is_null($displaymode)) {
+	if (!is_null($displaymode)) {
        		$otheroptions= $otheroptions."displayMode: '$displaymode',";
     	}
-	    if (!is_null($region)) {
+	if (!is_null($region)) {
        		$otheroptions= $otheroptions."region: '$region',";
     	}
-	    if (!is_null($colorstart) && !is_null($colorend)) {
+	if (!is_null($colorstart) && !is_null($colorend)) {
        		$otheroptions= $otheroptions."colorAxis: {colors: ['$colorstart', '$colorend']} ,";
     	}
+    }
+
+    if ($type === "ColumnChart") {
+        if (!is_null($trendlines)) {
+       		$otheroptions= $otheroptions."trendlines: $trendlines , ";
+        }
+    }
+
+    if ($type === "BarChart") {
+        if (!is_null($trendlines)) {
+       		$otheroptions= $otheroptions."trendlines: $trendlines , ";
+        }
+    }
+
+    if ($type === "ScatterChart") {
+        if (!is_null($trendlines)) {
+       		$otheroptions= $otheroptions."trendlines: $trendlines , ";
+        }
     }
 
     // Adding the option for "slices" as per the google documents
    //  Example:  slices="{ 0: {offset: 0.2, color: 'black'} }"
     if ($type === "PieChart") {
-	    if (!is_null($slices)) {
+	if (!is_null($slices)) {
        		$otheroptions= $otheroptions."slices: $slices, ";
     	}
     }
@@ -265,6 +294,7 @@ function googlegraph_add_quicktags() {
     QTags.addButton( 'eg_barChart', 'barChart', '[barChart vaxis="{title: \'\'}" haxis="{title: \'\'}" title=""]', '[/barChart]', 'b', 'Line Chart', 203 );
     QTags.addButton( 'eg_pieChart', 'pieChart', '[pieChart title=""]', '[/pieChart]', 'p', 'Pie Chart', 204 );
     QTags.addButton( 'eg_bubbleChart', 'bubbleChart', '[bubbleChart vaxis="{title: \'\'}" haxis="{title: \'\'}" title="" bubble="{}"]', '[/bubbleChart]', 'p', 'Bubble Chart', 205 );
+    QTags.addButton( 'eg_scatterChart', 'scatterChart', '[scatterChart vaxis="{title: \'\'}" haxis="{title: \'\'}" title="" ]', '[/scatterChart]', 'p', 'Scatter Chart', 206 );
     </script>
 <?php
     }

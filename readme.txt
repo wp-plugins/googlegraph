@@ -4,7 +4,7 @@ Donate link:  http://tsba.mobi/donate/
 Tags: google, graphs, charts, geo-chart, google charts
 Requires at least: 3.8
 Tested up to: 4.0 
-Stable tag: 0.3.3
+Stable tag: 0.3.4
 License: CC BY-NC 4.0
 License URI: http://creativecommons.org/licenses/by-nc/4.0/
 
@@ -77,6 +77,7 @@ Global attributes
 lineChart attributes
 
 * "curvetype" Type of the curvature of the line
+* "interpolate" If the lines should interpolate for the values which are "null" in the table. By default this option is "ture" and if the interpolation is not required, this option should be set to "false"
 
 geoChart attributes
 
@@ -313,6 +314,10 @@ Bubble charts support classification (by color type) and size of the bubble. To 
 5. Bubble Chart
 
 == Changelog ==
+= 0.3.4=
+* New chart type "Scatter Chart" added. Use the shortcode "scatterChart" to render the scatter chart. 
+* Added new feature for the Line Chart that will allow the chart to interpolate the missing data points
+* Added new feature for rendering trend lines for Column Charts, Bar Charts, Line Chart and Scatter Chart. !!!! Impartent, the first row should be number or date in order for the trend line to be activated.
 = 0.3.3 =
 * Added new chart type "bubbleChart"
 * Added QuickTags to the "Text" are of the editor
