@@ -4,7 +4,7 @@ Donate link:  http://tsba.mobi/donate/
 Tags: google, graphs, charts, geo-chart, google charts
 Requires at least: 3.8
 Tested up to: 4.0 
-Stable tag: 0.3.4
+Stable tag: 0.4
 License: CC BY-NC 4.0
 License URI: http://creativecommons.org/licenses/by-nc/4.0/
 
@@ -55,6 +55,7 @@ above steps, please send us the text (from the "Text" tab of the editor) and we 
 * barChart
 * pieChart
 * bubbleChart
+* ScatterChart
 
 = General format of the shortcodes =
 
@@ -95,13 +96,18 @@ bubbleChart attributes
 * "bubble" Attributes and styles of the bubbles
 * "colorstart" Start color of the gradient
 * "colorend" End color of the gradient
-* "trendlines" Allows adding a trend line to the series. The value of the attribute is java configuration line.
 
-barChart attributes
-* "trendlines" Allows adding a trend line to the series. The value of the attribute is java configuration line.
+barChart
 
-scatterChart attributes
-* "trendlines" Allows adding a trend line to the series. The value of the attribute is java configuration line.
+* "trendlines" Create a trend line
+
+columnChart
+
+* "trendlines" Create a trend line
+
+scatterChart
+
+* "trendlines" Create a trend line
 
 = Geo Chart Example =
 `[geoChart width="700px" height="700px" ]
@@ -114,7 +120,7 @@ scatterChart attributes
 	['RU', 700]
 [/geoChart]`
 
-Google geo chart supports the "market" mode of display, and also allows you to specify the region of interest. We had exposed this functionality to the short code in order to achieve the following type of charts:
+Google geo chart supports the "markers" mode of display, and also allows you to specify the region of interest. We had exposed this functionality to the short code in order to achieve the following type of charts:
 
 `[geoChart width="700px" height="700px" displaymode="markers" region="MK"]
 	['City', 'Population', 'Area'],
@@ -313,6 +319,30 @@ Bubble charts support classification (by color type) and size of the bubble. To 
         ['USA',    78.09,              2.05,      'North America',  307007000]
 [/bubbleChart]`
 
+= PHPLeague integration =
+
+Since v0.4 we have added integration for the PHPLeague plugin, allowing you to create charts showing the statisics for the teams of the league.
+
+We support two shortcodes, as follows:
+
+* phpLeagueGraphPerCategory
+* phpLeagueGraphPerTeam
+
+You are not required to provide the table data for the chart, we are reading the data from the datbase and preparing it in the form suitable for the chart.
+
+We support the following attributes on the shortcodes:
+
+* league - The ID of the league for which the chart should be generated. By default this value is set to 1
+* club_list - List of the clubs for the statistics. By default, we will generate graph with all clubs in the league.
+
+`[phpLeagueGraphPerCategory league="2" /]
+
+[phpLeagueGraphPerTeam/]
+
+[phpLeagueGraphPerTeam league="1" club_list="1,2"/]`
+
+
+
 == Screenshots ==
 1. Quick Tags in the edit box
 2. Geo Chart
@@ -321,7 +351,11 @@ Bubble charts support classification (by color type) and size of the bubble. To 
 5. Bubble Chart
 
 == Changelog ==
-= 0.3.4 =
+= 0.4 =
+* New admin screen showing a reference for the shortcodes and commands
+* Integration with PHPLeague
+* Public API for charting (for developers)
+= 0.3.4=
 * New chart type "Scatter Chart" added. Use the shortcode "scatterChart" to render the scatter chart. 
 * Added new feature for the Line Chart that will allow the chart to interpolate the missing data points
 * Added new feature for rendering trend lines for Column Charts, Bar Charts, Line Chart and Scatter Chart. !!!! Impartent, the first row should be number or date in order for the trend line to be activated.
@@ -353,7 +387,9 @@ Bubble charts support classification (by color type) and size of the bubble. To 
 
 
 == Upgrade Notice ==
-= 0.2 =
-Update to have correct version file
+= 0.4 =
+Update to have the latest version
 = 0.3 =
 Update to have the latest version
+= 0.2 =
+Update to have correct version file

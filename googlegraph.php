@@ -3,7 +3,7 @@
 Plugin Name: GoogleGraph
 Plugin URI: http://tsba.mobi/google-graph
 Description: Generate Google Chart.
-Version: 0.3.4
+Version: 0.4
 Author: Jordan Vrtanoski
 Author Email: jordan.vrtanoski@tsba.mobi
 License:
@@ -28,6 +28,8 @@ License:
   is owned by Google.
   https://google-developers.appspot.com/chart/interactive/docs/gallery
 */
+
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
 class GoogleGraph {
 
@@ -71,10 +73,17 @@ class GoogleGraph {
 		add_shortcode( 'pieChart', array( &$this, 'render_piechart' ) );
 		add_shortcode( 'geoChart', array( &$this, 'render_geochart' ) );
 		add_shortcode( 'bubbleChart', array( &$this, 'render_bubblechart' ) );
-               	add_shortcode( 'scatterChart', array( &$this, 'render_scatterchart' ) );
-	
+        add_shortcode( 'scatterChart', array( &$this, 'render_scatterchart' ) );
+		
+		/* PHP League bridge */
+		add_shortcode( 'phpLeagueGraphPerTeam', array( &$this, 'render_phpleaguegraph' ) );
+		add_shortcode( 'phpLeagueGraphPerCategory', array( &$this, 'render_phpleaguegraphtransposed' ) );
+
 		if ( is_admin() ) {
-			//this will run when in the WordPress admin
+			add_action( 'admin_menu', array( &$this, 'register_googlegraph_menu_page') );
+			wp_enqueue_script('jquery'); 
+			wp_enqueue_script('jquery-ui-core');
+			wp_enqueue_script('jquery-ui-accordion');
 		} else {
 			//this will run when on the frontend
 		}
@@ -88,6 +97,127 @@ class GoogleGraph {
 		add_action( 'your_action_here', array( &$this, 'action_callback_method_name' ) );
 		add_filter( 'your_filter_here', array( &$this, 'filter_callback_method_name' ) );    
 	}
+
+	/**
+		Register the GoogleGraph admin page.
+	*/
+	function register_googlegraph_menu_page(){
+		add_menu_page( 'GoogleGraph menu', 'GoogleGraph', 'manage_options', 'googlegraph/admin/help.php', '', 'dashicons-chart-area', 81 );
+	}
+	
+	/**
+		Transposed PHPLeague Chart 
+	*/
+	function render_phpleaguegraph($atts, $content = null) {
+		extract(shortcode_atts(array(
+			'league' => '1',
+			'club_list' => NULL
+		), $atts));
+		
+		if (is_plugin_active('phpleague/phpleague.php')) {
+			global $wpdb;
+			if (is_null($club_list)) {
+				$query = "SELECT * FROM $wpdb->table_cache WHERE id_league = $league ORDER BY points DESC";
+			} else {
+				$query = "SELECT * FROM $wpdb->table_cache WHERE id_league = $league AND id_team IN ($club_list) ORDER BY points DESC";
+			}
+			
+			$result = "['Club', 'Points', 'Games Played', 'Victory', 'Draw', 'Defeat', 'Goals For', 'Goals Against'],";
+			foreach ($wpdb->get_results($wpdb->prepare($query, NULL)) as $row)
+			{
+				$result .= "[";
+				$result .= "'".$row->club_name."',"; 
+				$result .= "".$row->points.","; 
+				$result .= "".$row->played.","; 
+				$result .= "".$row->victory.","; 
+				$result .= "".$row->draw.","; 
+				$result .= "".$row->defeat.","; 
+				$result .= "".$row->goal_for.","; 
+				$result .= "".$row->goal_against.","; 
+				$result .= "],";
+			}
+	
+			if (!isset($atts))
+			{
+				$atts = [];
+			}
+			if (!isset($atts['vaxis'])) {
+				$atts['vaxis'] = "{title: 'Clubs'}";
+			}
+			if (!isset($atts['haxis'])) {
+				$atts['haxis'] = "{title: ''}";
+			}
+			
+			return $this->render_chart('BarChart',$atts,$result );
+		} else {
+			return "PHPLeague plug-in should be installed for this shortcode to work";
+		}
+	}
+
+	/**
+	Transposed PHPLeague Chart 
+	*/
+	function render_phpleaguegraphtransposed($atts, $content = null) {
+		extract(shortcode_atts(array(
+			'league' => '1',
+			'club_list' => NULL
+		), $atts));
+		
+		if (is_plugin_active('phpleague/phpleague.php')) {
+			global $wpdb;
+			if (is_null($club_list)) {
+				$query = "SELECT * FROM $wpdb->table_cache WHERE id_league = $league ORDER BY points DESC";
+			} else {
+				$query = "SELECT * FROM $wpdb->table_cache WHERE id_league = $league AND id_team IN ($club_list) ORDER BY points DESC";
+			}
+
+			/* Create the array */
+			$resArr = [];
+			$resArr[1] = ["'Categories'"];
+			$resArr[2] = ["'Points'"];
+			$resArr[3] = ["'Games Played'"];
+			$resArr[4] = ["'Victory'"];
+			$resArr[5] = ["'Draw'"];
+			$resArr[6] = ["'Defeat'"];
+			$resArr[7] = ["'Goals For'"];
+			$resArr[8] = ["'Goals Against'"];
+
+			foreach ($wpdb->get_results($wpdb->prepare($query, NULL)) as $row)
+			{
+
+				$resArr[1][] = "'".$row->club_name."'"; 
+				$resArr[2][] = $row->points; 
+				$resArr[3][] = $row->played; 
+				$resArr[4][] = $row->victory; 
+				$resArr[5][] = $row->draw; 
+				$resArr[6][] = $row->defeat; 
+				$resArr[7][] = $row->goal_for; 
+				$resArr[8][] = $row->goal_against; 
+			}
+			
+			/* Transpose the aray */
+			$result = "";
+			foreach ($resArr as $row) {
+				$result .= "[" . implode(",",$row) . "],";
+			}
+	
+			if (!isset($atts))
+			{
+				$atts = [];
+			}
+			if (!isset($atts['vaxis'])) {
+				$atts['vaxis'] = "{title: 'Categories'}";
+			}
+			if (!isset($atts['haxis'])) {
+				$atts['haxis'] = "{title: ''}";
+			}
+			
+			return $this->render_chart('BarChart',$atts,$result );
+		} else {
+			return "PHPLeague plug-in should be installed for this shortcode to work";
+		}
+	}
+
 
     function render_linechart($atts, $content = null) {
          return $this->render_chart('LineChart', $atts, $content);
@@ -142,8 +272,8 @@ class GoogleGraph {
 			'colorend' => NULL,
 			'slices' => NULL,
 			'bubble' => NULL,
-                        'interpolate' => 'true',
-                        'trendlines' => NULL,
+            'interpolate' => 'true',
+            'trendlines' => NULL,
 			), $atts));
 		// you can now access the attribute values using $attr1 and $attr2
 
@@ -302,4 +432,3 @@ function googlegraph_add_quicktags() {
 add_action( 'admin_print_footer_scripts', 'googlegraph_add_quicktags' );
 
 
-?>
