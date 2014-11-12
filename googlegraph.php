@@ -3,7 +3,7 @@
 Plugin Name: GoogleGraph
 Plugin URI: http://tsba.mobi/google-graph
 Description: Generate Google Chart.
-Version: 0.4
+Version: 0.4.0.1
 Author: Jordan Vrtanoski
 Author Email: jordan.vrtanoski@tsba.mobi
 License:
@@ -139,7 +139,7 @@ class GoogleGraph {
 	
 			if (!isset($atts))
 			{
-				$atts = [];
+				$atts = array();
 			}
 			if (!isset($atts['vaxis'])) {
 				$atts['vaxis'] = "{title: 'Clubs'}";
@@ -172,15 +172,15 @@ class GoogleGraph {
 			}
 
 			/* Create the array */
-			$resArr = [];
-			$resArr[1] = ["'Categories'"];
-			$resArr[2] = ["'Points'"];
-			$resArr[3] = ["'Games Played'"];
-			$resArr[4] = ["'Victory'"];
-			$resArr[5] = ["'Draw'"];
-			$resArr[6] = ["'Defeat'"];
-			$resArr[7] = ["'Goals For'"];
-			$resArr[8] = ["'Goals Against'"];
+			$resArr = array();
+			$resArr[1] = array( "'Categories'" );
+			$resArr[2] = array( "'Points'" );
+			$resArr[3] = array( "'Games Played'" );
+			$resArr[4] = array( "'Victory'" );
+			$resArr[5] = array( "'Draw'" );
+			$resArr[6] = array( "'Defeat'" );
+			$resArr[7] = array( "'Goals For'" );
+			$resArr[8] = array( "'Goals Against'" );
 
 			foreach ($wpdb->get_results($wpdb->prepare($query, NULL)) as $row)
 			{
@@ -203,7 +203,7 @@ class GoogleGraph {
 	
 			if (!isset($atts))
 			{
-				$atts = [];
+				$atts = array();
 			}
 			if (!isset($atts['vaxis'])) {
 				$atts['vaxis'] = "{title: 'Categories'}";
