@@ -3,7 +3,7 @@
 Plugin Name: GoogleGraph
 Plugin URI: http://tsba.mobi/google-graph
 Description: Generate Google Chart.
-Version: 0.4.0.1
+Version: 0.4.1
 Author: Jordan Vrtanoski
 Author Email: jordan.vrtanoski@tsba.mobi
 License:
@@ -79,6 +79,9 @@ class GoogleGraph {
 		add_shortcode( 'phpLeagueGraphPerTeam', array( &$this, 'render_phpleaguegraph' ) );
 		add_shortcode( 'phpLeagueGraphPerCategory', array( &$this, 'render_phpleaguegraphtransposed' ) );
 
+		/* Register filters */
+		add_filter( 'no_texturize_shortcodes', array( &$this, 'shortcodes_to_exempt_from_wptexturize') );
+
 		if ( is_admin() ) {
 			add_action( 'admin_menu', array( &$this, 'register_googlegraph_menu_page') );
 			wp_enqueue_script('jquery'); 
@@ -98,6 +101,20 @@ class GoogleGraph {
 		add_filter( 'your_filter_here', array( &$this, 'filter_callback_method_name' ) );    
 	}
 
+
+	function shortcodes_to_exempt_from_wptexturize($shortcodes){
+		$shortcodes[] = 'lineChart';
+		$shortcodes[] = 'columnChart';
+		$shortcodes[] = 'barChart';
+		$shortcodes[] = 'pieChart';
+		$shortcodes[] = 'geoChart';
+		$shortcodes[] = 'bubbleChart';
+		$shortcodes[] = 'scatterChart';
+
+		$shortcodes[] = 'phpLeagueGraphPerTeam';
+		$shortcodes[] = 'phpLeagueGraphPerCategory';
+		return $shortcodes;
+	}
 	/**
 		Register the GoogleGraph admin page.
 	*/
@@ -341,9 +358,11 @@ class GoogleGraph {
         }
     }
        
+	   
     // Remove HTML tags from the content of the shortcode
+	$content = html_entity_decode($content, ENT_NOQUOTES, "UTF-8");
     $content = wp_strip_all_tags($content,true);
-       
+
     $str = <<<EOT
     <div id="googlegraph_$item_id" class="tsba_googlegraph">	
     <div id="chart_div_$item_id" class="gc_$type" style="width: $width; height: $height;"></div>

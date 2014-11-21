@@ -3,8 +3,8 @@ Contributors: jvrtanoski
 Donate link:  http://tsba.mobi/donate/
 Tags: google, graphs, charts, geo-chart, google charts
 Requires at least: 3.8
-Tested up to: 4.0 
-Stable tag: 0.4.0.1
+Tested up to: 4.0.1 
+Stable tag: 0.4.1
 License: CC BY-NC 4.0
 License URI: http://creativecommons.org/licenses/by-nc/4.0/
 
@@ -351,6 +351,9 @@ We support the following attributes on the shortcodes:
 5. Bubble Chart
 
 == Changelog ==
+= 0.4.1 =
+* Fixing compatibiliti issue with the Wordpress 4.0.1 security patch
+* Prevented texturization of the shortcode content
 = 0.4.0.1 =
 * Fixing the issue with older versions of PHP (prior PHP 5.4)
 = 0.4 =
