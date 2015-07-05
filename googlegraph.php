@@ -3,7 +3,7 @@
 Plugin Name: GoogleGraph
 Plugin URI: http://tsba.mobi/google-graph
 Description: Generate Google Chart.
-Version: 0.4.2
+Version: 0.4.2.1
 Author: Jordan Vrtanoski
 Author Email: jordan.vrtanoski@tsba.mobi
 License:
@@ -301,8 +301,8 @@ class GoogleGraph {
     // Prepare the curve option for line chart types
     $otheroptions="";
 
-    if (!is_null($chartArea)) {
-       	    $otheroptions= $otheroptions."chartarea: $chartArea,";
+    if (!is_null($chartarea)) {
+       	    $otheroptions= $otheroptions."chartArea: $chartarea,";
     }
 
     if ($type === "LineChart") {

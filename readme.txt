@@ -4,7 +4,7 @@ Donate link:  http://tsba.mobi/donate/
 Tags: google, graphs, charts, geo-chart, google charts
 Requires at least: 3.8
 Tested up to: 4.2.2 
-Stable tag: 0.4.2
+Stable tag: 0.4.2.1
 License: CC BY-NC 4.0
 License URI: http://creativecommons.org/licenses/by-nc/4.0/
 
