@@ -133,6 +133,11 @@
                 <td>Configuration object (json format) describing the attributes of the legent. Default value is "{position: 'bottom', maxLines: 3}"</td>
             </tr>
             <tr>
+                <td>chartarea</td>
+                <td>all</td>
+                <td>Configuration object (json forma) describing the size and style of the chart area. Example "{width: '50%', height: '75%'}"</td>
+            </tr>
+            <tr>
                 <td>vaxis</td>
                 <td>all</td>
                 <td>Configuration object describing the title of the vertical axes. The default value is "{title: 'Y',  titleTextStyle: {color: 'red'}}"</td>
